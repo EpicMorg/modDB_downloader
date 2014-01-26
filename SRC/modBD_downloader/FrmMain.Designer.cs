@@ -118,6 +118,7 @@
             // 
             // btn_browse
             // 
+            this.btn_browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_browse.Location = new System.Drawing.Point(364, 117);
             this.btn_browse.Name = "btn_browse";
             this.btn_browse.Size = new System.Drawing.Size(32, 23);
@@ -128,6 +129,8 @@
             // 
             // txt_savepath
             // 
+            this.txt_savepath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_savepath.Location = new System.Drawing.Point(9, 120);
             this.txt_savepath.Name = "txt_savepath";
             this.txt_savepath.Size = new System.Drawing.Size(349, 20);
@@ -146,6 +149,8 @@
             // 
             // txt_link
             // 
+            this.txt_link.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_link.Location = new System.Drawing.Point(6, 36);
             this.txt_link.Name = "txt_link";
             this.txt_link.Size = new System.Drawing.Size(390, 20);
