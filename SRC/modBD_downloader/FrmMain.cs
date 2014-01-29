@@ -51,7 +51,7 @@ namespace modBD_downloader {
                             .Select( c => c.Attributes[ "href" ].Value )
                             .ToArray();
                         foreach (var modlink in links)
-                            await DownloadMod( modlink, outpath, crtFld, dwnScr, dwnDsc );
+                            await DownloadMod( new Uri(new Uri( ModDBRoot ), modlink).ToString(), outpath, crtFld, dwnScr, dwnDsc );
                         next = page.QuerySelectorAll( "a.next" ).Any();
                         curpage++;
                     }
@@ -92,20 +92,25 @@ namespace modBD_downloader {
                 //mod 
                 var linke = modpage.DocumentNode.QuerySelectorAll( "#downloadmirrorstoggle" ).Take( 1 ).ToArray();
                 if ( linke.Length == 0 ) return true;
-                var modDownloadLink = Path.Combine(
-                    ModDBRoot
-                    ,
-                    this._modDownloadLinkRegex.Match( linke[ 0 ].Attributes[ "href" ].Value ).Value );
+                var modDownloadLink =new Uri(
+                    new Uri( ModDBRoot ),
+                    this._modDownloadLinkRegex.Match( linke[ 0 ].Attributes[ "href" ].Value ).Value
+                )
+                .ToString();
                 var custormersMomIsACheapWhore = await this.GetDocument( modDownloadLink );
                 linke = custormersMomIsACheapWhore
                     .DocumentNode.QuerySelectorAll( "body>p:first-child>a:first-child" )
                     .Take( 1 )
                     .ToArray();
                 if ( linke.Length == 0 ) return true;
-                var modFileLink = Path.Combine( ModDBRoot, linke[ 0 ].Attributes[ "href" ].Value );
-                var modFilePath = Path.Combine( dwnpath, Path.GetFileName( modFileLink ) );
-                if (!File.Exists( modFilePath ))
-                    await AWC.DownloadFileAsync( modFileLink, modFilePath );
+                var modFileLink = new Uri(new Uri( ModDBRoot ),Path.Combine( ModDBRoot, linke[ 0 ].Attributes[ "href" ].Value )).ToString();
+                var req = WebRequest.CreateHttp( modFileLink );
+                    req.AllowAutoRedirect = false;
+                var resp = await req.GetResponseAsync();
+                var fileLink = resp.Headers["Location"]??modFileLink;
+                var modFilePath = Path.Combine( dwnpath, Path.GetFileName( fileLink ) );
+                if ( !File.Exists( modFilePath ) )
+                    await AWC.DownloadFileAsync( fileLink, modFilePath );
                 return true;
             }
             catch (WebException) {
