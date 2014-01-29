@@ -37,6 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label_link = new System.Windows.Forms.Label();
             this.label_progress = new System.Windows.Forms.GroupBox();
+            this.ofd = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.gbx_null1.SuspendLayout();
             this.label_progress.SuspendLayout();
@@ -64,6 +65,7 @@
             this.btn_download.TabIndex = 1;
             this.btn_download.Text = "Download";
             this.btn_download.UseVisualStyleBackColor = true;
+            this.btn_download.Click += new System.EventHandler(this.btn_download_Click);
             // 
             // progressbar_download
             // 
@@ -100,7 +102,7 @@
             this.chk_download_screenshots.Enabled = false;
             this.chk_download_screenshots.Location = new System.Drawing.Point(169, 62);
             this.chk_download_screenshots.Name = "chk_download_screenshots";
-            this.chk_download_screenshots.Size = new System.Drawing.Size(189, 17);
+            this.chk_download_screenshots.Size = new System.Drawing.Size(203, 17);
             this.chk_download_screenshots.TabIndex = 5;
             this.chk_download_screenshots.Text = "Download screenshots && Previews";
             this.chk_download_screenshots.UseVisualStyleBackColor = true;
@@ -111,7 +113,7 @@
             this.chk_download_description.Enabled = false;
             this.chk_download_description.Location = new System.Drawing.Point(169, 85);
             this.chk_download_description.Name = "chk_download_description";
-            this.chk_download_description.Size = new System.Drawing.Size(148, 17);
+            this.chk_download_description.Size = new System.Drawing.Size(163, 17);
             this.chk_download_description.TabIndex = 6;
             this.chk_download_description.Text = "Download text description";
             this.chk_download_description.UseVisualStyleBackColor = true;
@@ -133,7 +135,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_savepath.Location = new System.Drawing.Point(9, 120);
             this.txt_savepath.Name = "txt_savepath";
-            this.txt_savepath.Size = new System.Drawing.Size(349, 20);
+            this.txt_savepath.Size = new System.Drawing.Size(349, 22);
             this.txt_savepath.TabIndex = 3;
             // 
             // chk_separate_folders
@@ -141,7 +143,7 @@
             this.chk_separate_folders.AutoSize = true;
             this.chk_separate_folders.Location = new System.Drawing.Point(6, 62);
             this.chk_separate_folders.Name = "chk_separate_folders";
-            this.chk_separate_folders.Size = new System.Drawing.Size(146, 17);
+            this.chk_separate_folders.Size = new System.Drawing.Size(159, 17);
             this.chk_separate_folders.TabIndex = 2;
             this.chk_separate_folders.Text = "Separate folders for mods";
             this.chk_separate_folders.UseVisualStyleBackColor = true;
@@ -153,7 +155,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_link.Location = new System.Drawing.Point(6, 36);
             this.txt_link.Name = "txt_link";
-            this.txt_link.Size = new System.Drawing.Size(390, 20);
+            this.txt_link.Size = new System.Drawing.Size(390, 22);
             this.txt_link.TabIndex = 1;
             // 
             // label2
@@ -170,7 +172,7 @@
             this.label_link.AutoSize = true;
             this.label_link.Location = new System.Drawing.Point(3, 20);
             this.label_link.Name = "label_link";
-            this.label_link.Size = new System.Drawing.Size(30, 13);
+            this.label_link.Size = new System.Drawing.Size(31, 13);
             this.label_link.TabIndex = 0;
             this.label_link.Text = "Link:";
             // 
@@ -225,6 +227,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox chk_download_screenshots;
         private System.Windows.Forms.CheckBox chk_download_description;
+        private System.Windows.Forms.FolderBrowserDialog ofd;
     }
 }
 
