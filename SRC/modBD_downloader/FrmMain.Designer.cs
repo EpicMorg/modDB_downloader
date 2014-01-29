@@ -27,7 +27,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btn_download = new System.Windows.Forms.Button();
             this.progressbar_download = new System.Windows.Forms.ProgressBar();
-            this.gbx_null1 = new System.Windows.Forms.GroupBox();
+            this.grp_main = new System.Windows.Forms.GroupBox();
             this.chk_download_screenshots = new System.Windows.Forms.CheckBox();
             this.chk_download_description = new System.Windows.Forms.CheckBox();
             this.btn_browse = new System.Windows.Forms.Button();
@@ -36,11 +36,11 @@
             this.txt_link = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label_link = new System.Windows.Forms.Label();
-            this.label_progress = new System.Windows.Forms.GroupBox();
+            this.grp_progress = new System.Windows.Forms.GroupBox();
             this.ofd = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.gbx_null1.SuspendLayout();
-            this.label_progress.SuspendLayout();
+            this.grp_main.SuspendLayout();
+            this.grp_progress.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -76,25 +76,25 @@
             this.progressbar_download.Size = new System.Drawing.Size(281, 34);
             this.progressbar_download.TabIndex = 2;
             // 
-            // gbx_null1
+            // grp_main
             // 
-            this.gbx_null1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.grp_main.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbx_null1.Controls.Add(this.chk_download_screenshots);
-            this.gbx_null1.Controls.Add(this.chk_download_description);
-            this.gbx_null1.Controls.Add(this.btn_browse);
-            this.gbx_null1.Controls.Add(this.txt_savepath);
-            this.gbx_null1.Controls.Add(this.chk_separate_folders);
-            this.gbx_null1.Controls.Add(this.txt_link);
-            this.gbx_null1.Controls.Add(this.label2);
-            this.gbx_null1.Controls.Add(this.label_link);
-            this.gbx_null1.Location = new System.Drawing.Point(12, 85);
-            this.gbx_null1.Name = "gbx_null1";
-            this.gbx_null1.Size = new System.Drawing.Size(400, 146);
-            this.gbx_null1.TabIndex = 3;
-            this.gbx_null1.TabStop = false;
-            this.gbx_null1.Text = "Downloading:";
+            this.grp_main.Controls.Add(this.chk_download_screenshots);
+            this.grp_main.Controls.Add(this.chk_download_description);
+            this.grp_main.Controls.Add(this.btn_browse);
+            this.grp_main.Controls.Add(this.txt_savepath);
+            this.grp_main.Controls.Add(this.chk_separate_folders);
+            this.grp_main.Controls.Add(this.txt_link);
+            this.grp_main.Controls.Add(this.label2);
+            this.grp_main.Controls.Add(this.label_link);
+            this.grp_main.Location = new System.Drawing.Point(12, 85);
+            this.grp_main.Name = "grp_main";
+            this.grp_main.Size = new System.Drawing.Size(400, 146);
+            this.grp_main.TabIndex = 3;
+            this.grp_main.TabStop = false;
+            this.grp_main.Text = "Downloading:";
             // 
             // chk_download_screenshots
             // 
@@ -176,18 +176,18 @@
             this.label_link.TabIndex = 0;
             this.label_link.Text = "Link:";
             // 
-            // label_progress
+            // grp_progress
             // 
-            this.label_progress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.grp_progress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label_progress.Controls.Add(this.progressbar_download);
-            this.label_progress.Controls.Add(this.btn_download);
-            this.label_progress.Location = new System.Drawing.Point(12, 237);
-            this.label_progress.Name = "label_progress";
-            this.label_progress.Size = new System.Drawing.Size(400, 58);
-            this.label_progress.TabIndex = 3;
-            this.label_progress.TabStop = false;
-            this.label_progress.Text = "Progress: 0/0";
+            this.grp_progress.Controls.Add(this.progressbar_download);
+            this.grp_progress.Controls.Add(this.btn_download);
+            this.grp_progress.Location = new System.Drawing.Point(12, 237);
+            this.grp_progress.Name = "grp_progress";
+            this.grp_progress.Size = new System.Drawing.Size(400, 58);
+            this.grp_progress.TabIndex = 3;
+            this.grp_progress.TabStop = false;
+            this.grp_progress.Text = "Progress: 0/0";
             // 
             // FrmMain
             // 
@@ -195,8 +195,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(424, 307);
-            this.Controls.Add(this.label_progress);
-            this.Controls.Add(this.gbx_null1);
+            this.Controls.Add(this.grp_progress);
+            this.Controls.Add(this.grp_main);
             this.Controls.Add(this.pictureBox1);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -205,9 +205,9 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ModDB Downloader";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.gbx_null1.ResumeLayout(false);
-            this.gbx_null1.PerformLayout();
-            this.label_progress.ResumeLayout(false);
+            this.grp_main.ResumeLayout(false);
+            this.grp_main.PerformLayout();
+            this.grp_progress.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -217,8 +217,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btn_download;
         private System.Windows.Forms.ProgressBar progressbar_download;
-        private System.Windows.Forms.GroupBox gbx_null1;
-        private System.Windows.Forms.GroupBox label_progress;
+        private System.Windows.Forms.GroupBox grp_main;
+        private System.Windows.Forms.GroupBox grp_progress;
         private System.Windows.Forms.CheckBox chk_separate_folders;
         private System.Windows.Forms.TextBox txt_link;
         private System.Windows.Forms.Label label_link;

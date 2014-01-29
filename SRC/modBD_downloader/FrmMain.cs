@@ -36,7 +36,7 @@ namespace modBD_downloader {
             bool crtFld = chk_separate_folders.Checked,
                  dwnScr = chk_download_description.Checked,
                  dwnDsc = chk_download_description.Checked;
-            this.Enabled = false;
+            this.grp_main.Enabled = this.grp_progress.Enabled = false;
             if ( !checkLink( link ) )
                 this.ErrorBox( "Bad link" );
             try {
@@ -63,7 +63,7 @@ namespace modBD_downloader {
             catch (WebException ex) {
                 this.ShowError( ex );
             }
-            this.Enabled = true;
+            this.grp_main.Enabled = this.grp_progress.Enabled = true;
         }
 
         private async Task<bool> DownloadMod( string modlink, string outpath, bool crtFld, bool dwnScr, bool dwnDsc ) {
