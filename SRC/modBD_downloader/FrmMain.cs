@@ -203,9 +203,9 @@ namespace modBD_downloader {
         private bool checkLink( string link ) {
             try {
                 var url = new Uri( link );
-                return url.Host.Contains( "moddb.com" )
-                    &&
-                    url.AbsolutePath.TrimEnd( '/' ).EndsWith( "downloads" );
+                return url.Host.Contains("moddb.com");
+                //  &&
+                //    url.AbsolutePath.TrimEnd( '/' ).EndsWith( "downloads" );
             }
             catch ( Exception ) {
                 return false;
