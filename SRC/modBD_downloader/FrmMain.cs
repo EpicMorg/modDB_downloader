@@ -24,8 +24,9 @@ namespace modBD_downloader {
 
         public FrmMain() {
             InitializeComponent();
+           
         }
-
+        bool workinprogress = false;
         private void chk_separate_folders_CheckedChanged( object sender, EventArgs e ) {
             chk_download_screenshots.Enabled = chk_download_description.Enabled = chk_separate_folders.Checked;
         }
@@ -35,20 +36,28 @@ namespace modBD_downloader {
                 txt_savepath.Text = ofd.SelectedPath;
         }
 
-        private async void btn_download_Click( object sender, EventArgs e ) {
+        private async void btn_download_Click( object sender, EventArgs e ) { 
             string link = txt_link.Text,
                 outpath = txt_savepath.Text;
             bool crtFld = chk_separate_folders.Checked,
                  dwnScr = chk_download_description.Checked,
                  dwnDsc = chk_download_description.Checked;
             this.Invoke(((Action) (() => {
+                workinprogress = true;
                 this.grp_main.Enabled = this.grp_progress.Enabled = false;
-                lbl_standby.Text = "Scanning for Mods & Links...";
+                lbl_standby.Text = "Scanning for Mods && Links...";
                 progressbar.BarColor = Color.FromArgb(255, 255, 128);
                 progressbar.Value = 100;
                 Application.DoEvents();
             })));
             if ( !checkLink( link ) ) {
+                this.Invoke(((Action)(() => {
+                    workinprogress = true;
+                    lbl_standby.Text = string.Format("Error!");
+                    progressbar.BarColor = Color.FromArgb(255, 128, 128);
+                    progressbar.Value = 100;
+                    Application.DoEvents();
+                })));
                 this.ErrorBox( "Bad link" );
             }
             else { 
@@ -65,6 +74,13 @@ namespace modBD_downloader {
                                     .ToArray() );
                             next = page.QuerySelectorAll( "a.next" ).Any();
                             curpage++;
+                            this.Invoke(((Action)(() => {
+                                workinprogress = true;
+                                lbl_standby.Text = string.Format("Scanning for Mods && Links...Found {0} pages...", curpage);
+                                progressbar.BarColor = Color.FromArgb(128, 255, 154);
+                                progressbar.Value = 100;
+                                Application.DoEvents();
+                            })));
                         }
                         catch ( WebException ) {
                             next = false;
@@ -73,7 +89,8 @@ namespace modBD_downloader {
                         next = false;
 #endif
                     } while ( next );
-                    this.Invoke(((Action)(() => { 
+                    this.Invoke(((Action)(() => {
+                        workinprogress = true;
                         lbl_standby.Text = "Prepearing...";
                         progressbar.BarColor = Color.FromArgb(192, 255, 192);
                         progressbar.Value = 0;
@@ -82,6 +99,7 @@ namespace modBD_downloader {
                     for (int index = 0; index < links.Count; index++) {
                         var modlink = links[index];
                         this.Invoke(((Action)(() => {
+                            workinprogress = true;
                             lbl_standby.Text = string.Format("Downloading {0}, {1} of {2}", Path.GetFileName(modlink), index + 1, links.Count);
                             progressbar.BarColor = Color.FromArgb(128, 255, 255);
                             progressbar.Value = (index*100)/(links.Count);
@@ -94,10 +112,12 @@ namespace modBD_downloader {
                     this.ShowError( ex );
                 }
                 MessageBox.Show( @"Download complete", @"Winrar", MessageBoxButtons.OK, MessageBoxIcon.Information );
+                workinprogress = false;
             }
              
             this.Invoke(((Action)(() => {
                 this.grp_main.Enabled = this.grp_progress.Enabled = true;
+                 workinprogress = false;
                 lbl_standby.Text = "Complete...Standby....";
                 progressbar.BarColor = Color.White;
                 progressbar.Value = 100;
@@ -201,6 +221,14 @@ namespace modBD_downloader {
         private void btn_about_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             var frmAbout = new frm_about();
             frmAbout.ShowDialog();
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e) {
+            base.OnClosing(e);
+            if (workinprogress == true) {
+                e.Cancel = true;
+                MessageBox.Show(@"Please wait!", @"Warning",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
