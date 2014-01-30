@@ -38,6 +38,9 @@
     <ApplicationIcon>Wucltux 47.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ColorProgressBar">
+      <HintPath>..\..\lib\ColorProgressBar.dll</HintPath>
+    </Reference>
     <Reference Include="EpicMorg.Net.AWC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\EpicMorg.Net.AWC.dll</HintPath>
@@ -50,6 +53,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Drawing" />
@@ -63,10 +67,19 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_about.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_about.Designer.cs">
+      <DependentUpon>frm_about.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_about.resx">
+      <DependentUpon>frm_about.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

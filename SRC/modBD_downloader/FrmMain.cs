@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -40,12 +41,17 @@ namespace modBD_downloader {
             bool crtFld = chk_separate_folders.Checked,
                  dwnScr = chk_download_description.Checked,
                  dwnDsc = chk_download_description.Checked;
-            this.grp_main.Enabled = this.grp_progress.Enabled = false;
+            this.Invoke(((Action) (() => {
+                this.grp_main.Enabled = this.grp_progress.Enabled = false;
+                lbl_standby.Text = "Scanning for Mods & Links...";
+                progressbar.BarColor = Color.FromArgb(255, 255, 128);
+                progressbar.Value = 100;
+                Application.DoEvents();
+            })));
             if ( !checkLink( link ) ) {
                 this.ErrorBox( "Bad link" );
             }
-            else {
-
+            else { 
                 try {
                     bool next;
                     var curpage = 1;
@@ -67,24 +73,46 @@ namespace modBD_downloader {
                         next = false;
 #endif
                     } while ( next );
-                    foreach ( var modlink in links )
-                        this.DownloadMod( this.GetFullLink( modlink ), outpath, crtFld, dwnScr, dwnDsc );
+                    this.Invoke(((Action)(() => { 
+                        lbl_standby.Text = "Prepearing...";
+                        progressbar.BarColor = Color.FromArgb(192, 255, 192);
+                        progressbar.Value = 0;
+                        Application.DoEvents();
+                    }))); 
+                    for (int index = 0; index < links.Count; index++) {
+                        var modlink = links[index];
+                        this.Invoke(((Action)(() => {
+                            lbl_standby.Text = string.Format("Downloading {0}, {1} of {2}", Path.GetFileName(modlink), index + 1, links.Count);
+                            progressbar.BarColor = Color.FromArgb(128, 255, 255);
+                            progressbar.Value = (index*100)/(links.Count);
+                            Application.DoEvents();
+                        }))); 
+                        this.DownloadMod(this.GetFullLink(modlink), outpath, crtFld, dwnScr, dwnDsc); 
+                    }
                 }
                 catch ( Exception ex ) {
                     this.ShowError( ex );
                 }
                 MessageBox.Show( @"Download complete", @"Winrar", MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
-            this.grp_main.Enabled = this.grp_progress.Enabled = true;
+             
+            this.Invoke(((Action)(() => {
+                this.grp_main.Enabled = this.grp_progress.Enabled = true;
+                lbl_standby.Text = "Complete...Standby....";
+                progressbar.BarColor = Color.White;
+                progressbar.Value = 100;
+                Application.DoEvents();
+            })));
         }
 
         private void DownloadMod( string modlink, string outpath, bool crtFld, bool dwnScr, bool dwnDsc ) {
             try {
                 //paths
                 var dwnpath = Path.Combine( outpath, crtFld ? Path.GetFileName( modlink ) : "" );
-                var dscPath = Path.Combine( dwnpath, "description.txt" );
+                var dscPath = Path.Combine( dwnpath, "description.txt" ); 
                 if ( !Directory.Exists( dwnpath ) ) Directory.CreateDirectory( dwnpath );
                 //fetch doc
+                File.WriteAllText(Path.Combine(dwnpath, "mod-url.txt"), modlink);
                 var modpage = this.GetDocument( modlink );
                 //description
                 if ( dwnDsc && !File.Exists( dscPath ) ) {
@@ -162,6 +190,17 @@ namespace modBD_downloader {
             catch ( Exception ) {
                 return false;
             }
+        }
+
+        private void FrmMain_Load(object sender, EventArgs e) {
+            // white -  цвет при простое. value = 100 выставлять
+            // 255; 255; 128 - цвет при ожидании перед скачиванием файлов. value = 100 выставлять
+            // 128; 255; 255 - цвет стандартного выполнения индикатора
+        }
+
+        private void btn_about_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            var frmAbout = new frm_about();
+            frmAbout.ShowDialog();
         }
     }
 }
