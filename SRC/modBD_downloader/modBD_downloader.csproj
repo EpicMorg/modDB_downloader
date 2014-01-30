@@ -38,7 +38,8 @@
     <ApplicationIcon>Wucltux 47.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EpicMorg.Net.AWC">
+    <Reference Include="EpicMorg.Net.AWC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\EpicMorg.Net.AWC.dll</HintPath>
     </Reference>
     <Reference Include="Fizzler">

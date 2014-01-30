@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -7,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EpicMorg.Net;
 using Fizzler.Systems.HtmlAgilityPack;
+using HtmlAgilityPack;
+using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 
 namespace modBD_downloader {
     public partial class FrmMain : Form {
@@ -21,13 +25,13 @@ namespace modBD_downloader {
             InitializeComponent();
         }
 
-        private void chk_separate_folders_CheckedChanged(object sender, EventArgs e) {
+        private void chk_separate_folders_CheckedChanged( object sender, EventArgs e ) {
             chk_download_screenshots.Enabled = chk_download_description.Enabled = chk_separate_folders.Checked;
         }
 
-        private void btn_browse_Click(object sender, EventArgs e) {
-            if(ofd.ShowDialog() == DialogResult.OK)
-                txt_savepath.Text =  ofd.SelectedPath;
+        private void btn_browse_Click( object sender, EventArgs e ) {
+            if ( ofd.ShowDialog() == DialogResult.OK )
+                txt_savepath.Text = ofd.SelectedPath;
         }
 
         private async void btn_download_Click( object sender, EventArgs e ) {
@@ -37,47 +41,55 @@ namespace modBD_downloader {
                  dwnScr = chk_download_description.Checked,
                  dwnDsc = chk_download_description.Checked;
             this.grp_main.Enabled = this.grp_progress.Enabled = false;
-            if ( !checkLink( link ) )
+            if ( !checkLink( link ) ) {
                 this.ErrorBox( "Bad link" );
-            try {
-                bool next;
-                var curpage = 1;
-                do {
-                    try {
-// ReSharper disable once SpecifyACultureInStringConversionExplicitly
-                        var page = (await this.GetDocument( Path.Combine( link, "page", curpage.ToString() ) )).DocumentNode;
-                        var links = page
-                            .QuerySelectorAll(ModLinkSelector)
-                            .Select( c => c.Attributes[ "href" ].Value )
-                            .ToArray();
-                        foreach (var modlink in links)
-                            await DownloadMod( new Uri(new Uri( ModDBRoot ), modlink).ToString(), outpath, crtFld, dwnScr, dwnDsc );
-                        next = page.QuerySelectorAll( "a.next" ).Any();
-                        curpage++;
-                    }
-                    catch (WebException) {
-                        next = false;
-                    }
-                } while ( next ); 
             }
-            catch (WebException ex) {
-                this.ShowError( ex );
+            else {
+
+                try {
+                    bool next;
+                    var curpage = 1;
+                    var links = new List<string>();
+                    do {
+                        try {
+                            var page = ( this.GetDocument( new Uri( link ) + "/page/" + curpage ) ).DocumentNode;
+                            links.AddRange(
+                                page.QuerySelectorAll( ModLinkSelector )
+                                    .Select( c => c.Attributes[ "href" ].Value )
+                                    .ToArray() );
+                            next = page.QuerySelectorAll( "a.next" ).Any();
+                            curpage++;
+                        }
+                        catch ( WebException ) {
+                            next = false;
+                        }
+#if DEBUG
+                        next = false;
+#endif
+                    } while ( next );
+                    foreach ( var modlink in links )
+                        this.DownloadMod( this.GetFullLink( modlink ), outpath, crtFld, dwnScr, dwnDsc );
+                }
+                catch ( Exception ex ) {
+                    this.ShowError( ex );
+                }
+                MessageBox.Show( @"Download complete", @"Winrar", MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
             this.grp_main.Enabled = this.grp_progress.Enabled = true;
         }
 
-        private async Task<bool> DownloadMod( string modlink, string outpath, bool crtFld, bool dwnScr, bool dwnDsc ) {
+        private void DownloadMod( string modlink, string outpath, bool crtFld, bool dwnScr, bool dwnDsc ) {
             try {
                 //paths
-                var dwnpath = Path.Combine( outpath, crtFld? Path.GetFileName( modlink ):"" );
+                var dwnpath = Path.Combine( outpath, crtFld ? Path.GetFileName( modlink ) : "" );
                 var dscPath = Path.Combine( dwnpath, "description.txt" );
                 if ( !Directory.Exists( dwnpath ) ) Directory.CreateDirectory( dwnpath );
                 //fetch doc
-                var modpage = await this.GetDocument( modlink );
+                var modpage = this.GetDocument( modlink );
                 //description
                 if ( dwnDsc && !File.Exists( dscPath ) ) {
                     var dsc = modpage.DocumentNode.QuerySelectorAll( "#downloadsummary" ).Take( 1 ).ToArray();
-                    if (dsc.Length>0) File.WriteAllText( dscPath, dsc[0].InnerText );
+                    if ( dsc.Length > 0 ) File.WriteAllText( dscPath, dsc[ 0 ].InnerText );
                 }
                 //preview
                 if ( dwnScr ) {
@@ -86,48 +98,54 @@ namespace modBD_downloader {
                         var srcLink = scr[ 0 ].Attributes[ "href" ].Value;
                         var scrPath = Path.Combine( dwnpath, Path.GetFileName( srcLink ) );
                         if ( !File.Exists( scrPath ) )
-                            await AWC.DownloadFileAsync( srcLink, scrPath );
+                            new WebClient().DownloadFile( srcLink, scrPath );
                     }
                 }
                 //mod 
                 var linke = modpage.DocumentNode.QuerySelectorAll( "#downloadmirrorstoggle" ).Take( 1 ).ToArray();
-                if ( linke.Length == 0 ) return true;
-                var modDownloadLink =new Uri(
-                    new Uri( ModDBRoot ),
-                    this._modDownloadLinkRegex.Match( linke[ 0 ].Attributes[ "href" ].Value ).Value
-                )
-                .ToString();
-                var custormersMomIsACheapWhore = await this.GetDocument( modDownloadLink );
-                linke = custormersMomIsACheapWhore
+                var fileLink = linke.Length == 0 ? null : linke[ 0 ].Attributes[ "href" ].Value;
+                var modDownloadLink = new Uri(
+                       new Uri( ModDBRoot ),
+                       this._modDownloadLinkRegex.Match( fileLink ).Value
+                   )
+                   .ToString();
+                //parse mod dwn page
+                var custormersMomIsACheapWhore = this.GetDocument( modDownloadLink );
+                var lnk = custormersMomIsACheapWhore
                     .DocumentNode.QuerySelectorAll( "body>p:first-child>a:first-child" )
                     .Take( 1 )
+                    .Select( a => a.Attributes[ "href" ].Value )
                     .ToArray();
-                if ( linke.Length == 0 ) return true;
-                var modFileLink = new Uri(new Uri( ModDBRoot ),Path.Combine( ModDBRoot, linke[ 0 ].Attributes[ "href" ].Value )).ToString();
-                var req = WebRequest.CreateHttp( modFileLink );
-                    req.AllowAutoRedirect = false;
-                var resp = await req.GetResponseAsync();
-                var fileLink = resp.Headers["Location"]??modFileLink;
-                var modFilePath = Path.Combine( dwnpath, Path.GetFileName( fileLink ) );
-                if ( !File.Exists( modFilePath ) )
-                    await AWC.DownloadFileAsync( fileLink, modFilePath );
-                return true;
+                if ( lnk.Length == 0 ) return;
+                var modDwn = this.GetFullLink( Path.Combine( ModDBRoot, lnk[ 0 ] ) );
+                //get real file name
+                var req = WebRequest.CreateHttp( modDwn );
+                req.AllowAutoRedirect = false;
+                using ( var resp = req.GetResponse() ) {
+                    var fname = resp.Headers[ "Location" ] ?? modDwn;
+                    var f = Path.GetFileName( fname );
+                    var outfile = Path.Combine( dwnpath, f );
+                    new WebClient().DownloadFile( modDwn, outfile );
+                }
             }
-            catch (WebException) {
-                return false;
-            }
-
+            catch ( WebException ) { }
         }
 
-        private async Task<HtmlAgilityPack.HtmlDocument> GetDocument( string url ) {
-            var page = await AWC.DownloadStringAsync( url );
-            var doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml( page );
-            return doc;
+        private string GetFullLink( string s ) {
+            return new Uri( new Uri( ModDBRoot ), s ).ToString();
         }
 
-        private void ShowError(Exception ex) {
-            this.ErrorBox( "Error occured:\r\n"+ex.Message );
+        private HtmlDocument GetDocument( string url ) {
+            try {
+                return new HtmlAgilityPack.HtmlWeb().Load( url );
+            }
+            catch ( Exception ex ) {
+                throw;
+            }
+        }
+
+        private void ShowError( Exception ex ) {
+            this.ErrorBox( "Error occured:\r\n" + ex.Message );
         }
 
         private void ErrorBox( string str ) {
@@ -141,7 +159,7 @@ namespace modBD_downloader {
                     &&
                     url.AbsolutePath.TrimEnd( '/' ).EndsWith( "downloads" );
             }
-            catch (Exception) {
+            catch ( Exception ) {
                 return false;
             }
         }

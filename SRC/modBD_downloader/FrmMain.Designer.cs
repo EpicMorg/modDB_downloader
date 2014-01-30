@@ -99,6 +99,8 @@
             // chk_download_screenshots
             // 
             this.chk_download_screenshots.AutoSize = true;
+            this.chk_download_screenshots.Checked = true;
+            this.chk_download_screenshots.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_download_screenshots.Enabled = false;
             this.chk_download_screenshots.Location = new System.Drawing.Point(169, 62);
             this.chk_download_screenshots.Name = "chk_download_screenshots";
@@ -110,6 +112,8 @@
             // chk_download_description
             // 
             this.chk_download_description.AutoSize = true;
+            this.chk_download_description.Checked = true;
+            this.chk_download_description.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_download_description.Enabled = false;
             this.chk_download_description.Location = new System.Drawing.Point(169, 85);
             this.chk_download_description.Name = "chk_download_description";
@@ -137,10 +141,13 @@
             this.txt_savepath.Name = "txt_savepath";
             this.txt_savepath.Size = new System.Drawing.Size(349, 22);
             this.txt_savepath.TabIndex = 3;
+            this.txt_savepath.Text = "b:\\mods";
             // 
             // chk_separate_folders
             // 
             this.chk_separate_folders.AutoSize = true;
+            this.chk_separate_folders.Checked = true;
+            this.chk_separate_folders.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_separate_folders.Location = new System.Drawing.Point(6, 62);
             this.chk_separate_folders.Name = "chk_separate_folders";
             this.chk_separate_folders.Size = new System.Drawing.Size(159, 17);
@@ -157,6 +164,7 @@
             this.txt_link.Name = "txt_link";
             this.txt_link.Size = new System.Drawing.Size(390, 22);
             this.txt_link.TabIndex = 1;
+            this.txt_link.Text = "http://www.moddb.com/games/half-life/downloads";
             // 
             // label2
             // 
