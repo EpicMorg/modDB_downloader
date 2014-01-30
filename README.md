@@ -1,7 +1,7 @@
 modBD_downloader
 ================
 
-![logo] (http://ww.epicm.org/wp-content/uploads/2014/01/mdbw-300x255.png)
+![logo] (http://ww.epicm.org/wp-content/uploads/2014/01/mdbw.png)
 
  http://code.google.com/p/fizzler/
  
