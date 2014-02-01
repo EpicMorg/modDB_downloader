@@ -24,7 +24,7 @@ namespace modBD_downloader {
 
         }
         private void chk_separate_folders_CheckedChanged( object sender, EventArgs e ) {
-            chk_download_screenshots.Enabled = chk_download_description.Enabled = chk_separate_folders.Checked;
+            chk_download_screenshots.Enabled = chk_download_screenshots.Checked = chk_download_description.Enabled = chk_download_description.Checked = chk_separate_folders.Checked;
         }
 
         private void btn_browse_Click( object sender, EventArgs e ) {
