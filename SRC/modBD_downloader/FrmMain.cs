@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using EpicMorg.Net;
 using Fizzler.Systems.HtmlAgilityPack;
-using HtmlAgilityPack;
 using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 
 namespace modBD_downloader {
@@ -20,14 +16,13 @@ namespace modBD_downloader {
         private const string ScreenshotLinkSelector =
             "#body>div.container:first-child>div.first>div.normalbox>div.inner>div.mediaviewer.clear>div.media>a";
         private const string ModDBRoot = "http://www.moddb.com/";
-        private Regex _modDownloadLinkRegex = new Regex( @"\/downloads\/start\/[0-9]+" );
+        private Regex _modDownloadLinkRegex = new Regex( @"\/[a-z]+\/start\/[0-9]+" );
         private bool _running = false;
-
+        
         public FrmMain() {
             InitializeComponent();
 
         }
-        bool workinprogress = false;
         private void chk_separate_folders_CheckedChanged( object sender, EventArgs e ) {
             chk_download_screenshots.Enabled = chk_download_description.Enabled = chk_separate_folders.Checked;
         }
@@ -69,6 +64,7 @@ namespace modBD_downloader {
                             links.AddRange(
                                 page.QuerySelectorAll( ModLinkSelector )
                                     .Select( c => c.Attributes[ "href" ].Value )
+                                    
                                     .ToArray() );
                             next = page.QuerySelectorAll( "a.next" ).Any();
                             curpage++;
@@ -79,7 +75,6 @@ namespace modBD_downloader {
                         }
                     } while ( next );
                     this.Invoke( ( (Action) ( () => {
-                        workinprogress = true;
                         lbl_standby.Text = @"Preparing...";
                         progressbar.BarColor = Color.FromArgb( 192, 255, 192 );
                         progressbar.Value = 0;
@@ -97,14 +92,12 @@ namespace modBD_downloader {
                     this.ShowError( ex );
                 }
                 this.Invoke( (Action) ( () => MessageBox.Show( @"Download complete", @"Winrar", MessageBoxButtons.OK, MessageBoxIcon.Information ) ) );
-                workinprogress = false;
             }
 
             this.Invoke( ( (Action) this.OnDownloadComplete ) );
         }
 
         private void OnBadLink() {
-            workinprogress = true;
             lbl_standby.Text = string.Format( "Error!" );
             progressbar.BarColor = Color.FromArgb( 255, 128, 128 );
             progressbar.Value = 100;
@@ -112,8 +105,6 @@ namespace modBD_downloader {
         }
 
         private void OnDownloadStart() {
-            workinprogress = true;
-            //this.grp_main.Enabled = this.grp_progress.Enabled = false;
             lbl_standby.Text = @"Scanning for Mods & Links";
             btn_download.Text = "Cancel";
             progressbar.BarColor = Color.FromArgb( 255, 255, 128 );
@@ -122,7 +113,6 @@ namespace modBD_downloader {
         }
 
         private void OnCatalogProgress( int curpage ) {
-            workinprogress = true;
             lbl_standby.Text = string.Format( "Scanning for Mods && Links. Found {0} pages...", curpage );
             progressbar.BarColor = Color.FromArgb( 128, 255, 154 );
             progressbar.Value = 100;
@@ -130,7 +120,6 @@ namespace modBD_downloader {
         }
 
         private void OnDownloadProgress( int total, int index, string modlink ) {
-            workinprogress = true;
             lbl_standby.Text = string.Format( "Downloading {0}, {1} of {2}", Path.GetFileName( modlink ), index + 1, total );
             progressbar.BarColor = Color.FromArgb( 128, 255, 255 );
             progressbar.Value = ( index * 100 ) / ( total );
@@ -139,11 +128,11 @@ namespace modBD_downloader {
 
         private void OnDownloadComplete() {
             this.btn_download.Enabled = true;
-            workinprogress = false;
             lbl_standby.Text = @"Complete. Standby.";
             btn_download.Text = @"Download";
             progressbar.BarColor = Color.White;
             progressbar.Value = 100;
+            this._running = false;
             Application.DoEvents();
         }
 
@@ -173,7 +162,8 @@ namespace modBD_downloader {
                 }
                 //mod 
                 var linke = modpage.DocumentNode.QuerySelectorAll( "#downloadmirrorstoggle" ).Take( 1 ).ToArray();
-                var fileLink = linke.Length == 0 ? null : linke[ 0 ].Attributes[ "href" ].Value;
+                if ( linke.Length == 0 ) return;
+                var fileLink = linke[ 0 ].Attributes[ "href" ].Value;
                 var modDownloadLink = new Uri(
                        new Uri( ModDBRoot ),
                        this._modDownloadLinkRegex.Match( fileLink ).Value
@@ -247,10 +237,9 @@ namespace modBD_downloader {
 
         private void FrmMain_FormClosing( object sender, FormClosingEventArgs e ) {
             base.OnClosing( e );
-            if ( workinprogress == true ) {
-                e.Cancel = true;
-                MessageBox.Show( @"Please wait!", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-            }
+            if ( !this._running ) return;
+            e.Cancel = true;
+            MessageBox.Show( @"Please wait!", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning );
         }
 
         private void bw_DoWork( object sender, System.ComponentModel.DoWorkEventArgs e ) {
