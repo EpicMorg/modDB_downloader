@@ -141,6 +141,7 @@ namespace modBD_downloader {
                 //paths
                 var dwnpath = Path.Combine( outpath, crtFld ? Path.GetFileName( modlink ) : "" );
                 var dscPath = Path.Combine( dwnpath, "description.txt" );
+				var dsc2Path = Path.Combine( dwnpath, "description2.txt" );
                 if ( !Directory.Exists( dwnpath ) ) Directory.CreateDirectory( dwnpath );
                 //fetch doc
                 File.WriteAllText( Path.Combine( dwnpath, "mod-url.txt" ), modlink );
@@ -150,6 +151,11 @@ namespace modBD_downloader {
                     var dsc = modpage.DocumentNode.QuerySelectorAll( "#downloadsummary" ).Take( 1 ).ToArray();
                     if ( dsc.Length > 0 ) File.WriteAllText( dscPath, dsc[ 0 ].InnerText );
                 }
+				if ( dwnDsc && !File.Exists( dsc2Path ) ) {
+                    var dsc2 = modpage.DocumentNode.QuerySelectorAll( "#body>.container>.column.span-all>div.normalbox>div.inner>div.body>p" ).Take( 1 ).ToArray();
+                    if ( dsc2.Length > 0 ) File.WriteAllText( dsc2Path, dsc2[ 0 ].InnerText );
+                }
+				
                 //preview
                 if ( dwnScr ) {
                     var scr = modpage.DocumentNode.QuerySelectorAll( ScreenshotLinkSelector ).Take( 1 ).ToArray();
