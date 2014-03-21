@@ -58,7 +58,7 @@
             this.lbl_name.Name = "lbl_name";
             this.lbl_name.Size = new System.Drawing.Size(228, 20);
             this.lbl_name.TabIndex = 2;
-            this.lbl_name.Text = "ModDB Downloader 1.0.2.1";
+            this.lbl_name.Text = "ModDB Downloader 1.2.0.1";
             // 
             // lbl_about
             // 

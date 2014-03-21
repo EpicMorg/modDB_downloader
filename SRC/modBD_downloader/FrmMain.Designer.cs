@@ -96,7 +96,7 @@
             this.chk_download_screenshots.Enabled = false;
             this.chk_download_screenshots.Location = new System.Drawing.Point(169, 62);
             this.chk_download_screenshots.Name = "chk_download_screenshots";
-            this.chk_download_screenshots.Size = new System.Drawing.Size(127, 17);
+            this.chk_download_screenshots.Size = new System.Drawing.Size(120, 17);
             this.chk_download_screenshots.TabIndex = 5;
             this.chk_download_screenshots.Text = "Download Previews";
             this.chk_download_screenshots.UseVisualStyleBackColor = true;
@@ -107,7 +107,7 @@
             this.chk_download_description.Enabled = false;
             this.chk_download_description.Location = new System.Drawing.Point(169, 85);
             this.chk_download_description.Name = "chk_download_description";
-            this.chk_download_description.Size = new System.Drawing.Size(193, 17);
+            this.chk_download_description.Size = new System.Drawing.Size(173, 17);
             this.chk_download_description.TabIndex = 6;
             this.chk_download_description.Text = "Download text description && Url";
             this.chk_download_description.UseVisualStyleBackColor = true;
@@ -129,7 +129,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_savepath.Location = new System.Drawing.Point(9, 116);
             this.txt_savepath.Name = "txt_savepath";
-            this.txt_savepath.Size = new System.Drawing.Size(349, 22);
+            this.txt_savepath.Size = new System.Drawing.Size(349, 20);
             this.txt_savepath.TabIndex = 3;
             // 
             // chk_separate_folders
@@ -137,7 +137,7 @@
             this.chk_separate_folders.AutoSize = true;
             this.chk_separate_folders.Location = new System.Drawing.Point(6, 62);
             this.chk_separate_folders.Name = "chk_separate_folders";
-            this.chk_separate_folders.Size = new System.Drawing.Size(159, 17);
+            this.chk_separate_folders.Size = new System.Drawing.Size(146, 17);
             this.chk_separate_folders.TabIndex = 2;
             this.chk_separate_folders.Text = "Separate folders for mods";
             this.chk_separate_folders.UseVisualStyleBackColor = true;
@@ -149,7 +149,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_link.Location = new System.Drawing.Point(6, 36);
             this.txt_link.Name = "txt_link";
-            this.txt_link.Size = new System.Drawing.Size(388, 22);
+            this.txt_link.Size = new System.Drawing.Size(388, 20);
             this.txt_link.TabIndex = 1;
             // 
             // label2
@@ -166,7 +166,7 @@
             this.label_link.AutoSize = true;
             this.label_link.Location = new System.Drawing.Point(3, 20);
             this.label_link.Name = "label_link";
-            this.label_link.Size = new System.Drawing.Size(31, 13);
+            this.label_link.Size = new System.Drawing.Size(30, 13);
             this.label_link.TabIndex = 0;
             this.label_link.Text = "Link:";
             // 
@@ -207,7 +207,7 @@
             this.btn_about.AutoSize = true;
             this.btn_about.Location = new System.Drawing.Point(6, 69);
             this.btn_about.Name = "btn_about";
-            this.btn_about.Size = new System.Drawing.Size(39, 13);
+            this.btn_about.Size = new System.Drawing.Size(35, 13);
             this.btn_about.TabIndex = 4;
             this.btn_about.TabStop = true;
             this.btn_about.Text = "About";
@@ -220,7 +220,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_standby.Location = new System.Drawing.Point(6, 48);
             this.lbl_standby.Name = "lbl_standby";
-            this.lbl_standby.Size = new System.Drawing.Size(281, 21);
+            this.lbl_standby.Size = new System.Drawing.Size(281, 34);
             this.lbl_standby.TabIndex = 3;
             this.lbl_standby.Text = "Standby...";
             this.lbl_standby.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
