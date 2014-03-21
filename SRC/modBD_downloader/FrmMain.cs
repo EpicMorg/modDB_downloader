@@ -189,7 +189,8 @@ namespace modDB_downloader {
                 req.AllowAutoRedirect = false;
                 using ( var resp = req.GetResponse() ) {
                     var fname = resp.Headers[ "Location" ] ?? modDwn;
-                    var f = Path.GetFileName( fname );
+                    var u = new Uri( fname );
+                    var f = Path.GetFileName( u.LocalPath );
                     var outfile = Path.Combine( dwnpath, f );
                     new WebClient().DownloadFile( modDwn, outfile );
                 }
