@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "modBD_downloader", "modBD_downloader.csproj", "{8868DD9E-8023-43C0-B144-55DBB34357B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "modDB_downloader", "modDB_downloader.csproj", "{8868DD9E-8023-43C0-B144-55DBB34357B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

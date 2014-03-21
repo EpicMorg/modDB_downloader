@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace modBD_downloader {
+namespace modDB_downloader {
     public partial class frm_about : Form {
         public frm_about() {
             InitializeComponent();

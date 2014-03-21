@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace modBD_downloader {
+namespace modDB_downloader {
     static class Program {
         /// <summary>
         /// Главная точка входа для приложения.

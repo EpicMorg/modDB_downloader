@@ -1,4 +1,4 @@
-﻿namespace modBD_downloader {
+﻿namespace modDB_downloader {
     partial class FrmMain {
         /// <summary>
         /// Требуется переменная конструктора.
@@ -49,7 +49,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImage = global::modBD_downloader.Properties.Resources.bg_header;
+            this.pictureBox1.BackgroundImage = global::modDB_downloader.Properties.Resources.bg_header;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);

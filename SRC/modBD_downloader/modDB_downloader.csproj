@@ -7,8 +7,8 @@
     <ProjectGuid>{8868DD9E-8023-43C0-B144-55DBB34357B3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>modBD_downloader</RootNamespace>
-    <AssemblyName>modBD_downloader</AssemblyName>
+    <RootNamespace>modDB_downloader</RootNamespace>
+    <AssemblyName>modDB_downloader</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 
-namespace modBD_downloader {
+namespace modDB_downloader {
     public partial class FrmMain : Form {
         private const string ModLinkSelector =
             "#body>div.container:first-child>div.column.span-300-alt.first>div:first-child>div.inner>div:first-child>div.table.tablesummarysupport>div.clear>a:first-child";

@@ -1,4 +1,4 @@
-﻿namespace modBD_downloader {
+﻿namespace modDB_downloader {
     partial class frm_about {
         /// <summary>
         /// Required designer variable.
@@ -40,7 +40,7 @@
             // pic_logo
             // 
             this.pic_logo.BackColor = System.Drawing.Color.Transparent;
-            this.pic_logo.BackgroundImage = global::modBD_downloader.Properties.Resources.bg_header;
+            this.pic_logo.BackgroundImage = global::modDB_downloader.Properties.Resources.bg_header;
             this.pic_logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pic_logo.Dock = System.Windows.Forms.DockStyle.Top;
             this.pic_logo.Location = new System.Drawing.Point(0, 0);
