@@ -207,6 +207,7 @@ namespace modDB_downloader {
                 return new HtmlAgilityPack.HtmlWeb().Load( url );
             }
             catch ( Exception ex ) {
+                Console.WriteLine(ex);
                 throw;
             }
         }

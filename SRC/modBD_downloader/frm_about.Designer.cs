@@ -58,7 +58,7 @@
             this.lbl_name.Name = "lbl_name";
             this.lbl_name.Size = new System.Drawing.Size(228, 20);
             this.lbl_name.TabIndex = 2;
-            this.lbl_name.Text = "ModDB Downloader 1.2.0.1";
+            this.lbl_name.Text = "ModDB Downloader 0.0.0.0";
             // 
             // lbl_about
             // 
@@ -175,6 +175,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About";
+            this.Load += new System.EventHandler(this.frm_about_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

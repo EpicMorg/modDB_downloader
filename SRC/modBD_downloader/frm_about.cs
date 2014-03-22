@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace modDB_downloader {
@@ -6,6 +8,30 @@ namespace modDB_downloader {
         public frm_about() {
             InitializeComponent();
         }
+
+        #region Методы доступа к атрибутам сборки 
+        public string AssemblyVersion
+        {
+            get
+            {
+                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            }
+        } 
+    
+        public string AssemblyProduct
+        {
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyProductAttribute)attributes[0]).Product;
+            }
+        } 
+          #endregion
+
 
         private void url1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             Process.Start(url1.Text);
@@ -29,6 +55,11 @@ namespace modDB_downloader {
 
         private void url6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             Process.Start(url6.Text);
+        }
+
+        private void frm_about_Load(object sender, System.EventArgs e)
+        {
+            this.lbl_name.Text = String.Format("{0} {1}", AssemblyProduct, AssemblyVersion);
         }
     }
 }
